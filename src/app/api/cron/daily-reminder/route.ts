@@ -16,8 +16,8 @@ export async function GET(request: NextRequest) {
   let gone = 0
   for (const sub of subs ?? []) {
     const result = await sendPush(sub, {
-      title: '저녁은 어떻게 드셨어요?',
-      body: '저녁 사진과 한 줄 일과를 적고 부모님께 카드 보내보세요.',
+      title: '오늘 카드 작성했어?',
+      body: '점심·저녁 사진이랑 한 줄 일과 모아서 부모님께 보내드려요.',
       url: '/',
     })
     if (result.ok) pushed++

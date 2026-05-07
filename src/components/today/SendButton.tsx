@@ -48,9 +48,12 @@ export function SendButton({ status, finalMessage }: Props) {
       <div className="w-full max-w-md space-y-3 rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-900 dark:bg-green-950">
         <div className="flex items-center gap-2 text-sm font-medium text-green-700 dark:text-green-400">
           <CheckCircle2 className="size-4" />
-          오늘 카드를 보냈어요
+          카드를 보냈어요
         </div>
         <p className="text-sm leading-relaxed">{finalMessage}</p>
+        <p className="text-xs text-green-700/80 dark:text-green-400/80">
+          내일 아침 7시에 부모님께 알림이 도착해요
+        </p>
         <div className="pt-1">
           <Button
             type="button"
@@ -72,9 +75,9 @@ export function SendButton({ status, finalMessage }: Props) {
     function handleConfirm() {
       startTransition(async () => {
         try {
-          const { pushed } = await confirmSend(draft)
-          toast.success('부모님께 보냈어요', {
-            description: pushed > 0 ? `푸시 ${pushed}건 발송됨` : undefined,
+          await confirmSend(draft)
+          toast.success('카드를 보냈어요', {
+            description: '내일 아침 7시에 부모님께 도착해요',
           })
         } catch (err) {
           toast.error(err instanceof Error ? err.message : '발송 실패')

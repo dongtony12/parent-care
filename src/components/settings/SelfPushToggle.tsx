@@ -76,10 +76,10 @@ export function SelfPushToggle() {
       <div className="space-y-0.5">
         <Label htmlFor="self-push" className="flex items-center gap-1.5">
           <Bell className="size-4" />
-          점심·저녁 사진 알림
+          오늘 카드 리마인더
         </Label>
         <p className="text-xs text-muted-foreground">
-          매일 12:00, 18:30에 사진 찍기 알림
+          매일 밤 22:00, 카드 작성 알림이 도착해요
         </p>
       </div>
       <Switch

@@ -17,6 +17,7 @@ export type Database = {
       daily_entries: {
         Row: {
           created_at: string
+          delivered_at: string | null
           diary_text: string | null
           entry_date: string
           final_message: string | null
@@ -28,6 +29,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          delivered_at?: string | null
           diary_text?: string | null
           entry_date: string
           final_message?: string | null
@@ -39,6 +41,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          delivered_at?: string | null
           diary_text?: string | null
           entry_date?: string
           final_message?: string | null
