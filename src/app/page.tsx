@@ -1,37 +1,52 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { signOut } from '@/lib/auth/actions'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { TodayCard } from '@/components/today/TodayCard'
+import { getOrCreateTodayEntry } from './actions/today'
+
+const SIGNED_URL_TTL = 60 * 60
 
 export default async function HomePage() {
   const supabase = await createSupabaseServerClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
+  if (!user) return null
+
+  const entry = await getOrCreateTodayEntry()
+
+  const { data: photos } = await supabase
+    .from('meal_photos')
+    .select('meal_type, storage_path')
+    .eq('entry_id', entry.id)
+
+  const signed = await Promise.all(
+    (photos ?? []).map(async (p) => {
+      const { data } = await supabase.storage
+        .from('meal-photos')
+        .createSignedUrl(p.storage_path, SIGNED_URL_TTL)
+      return { meal_type: p.meal_type, url: data?.signedUrl ?? null }
+    }),
+  )
+
+  const lunchUrl = signed.find((s) => s.meal_type === 'lunch')?.url ?? null
+  const dinnerUrl = signed.find((s) => s.meal_type === 'dinner')?.url ?? null
 
   return (
-    <main className="flex-1 flex items-center justify-center p-6">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>부모님 안심 케어</CardTitle>
-          <CardDescription>
-            매일 점심·저녁 사진과 한 줄 일기를 모아 부모님께 전합니다.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground">
-            {user?.email} 님, 환영합니다.
-          </p>
-          <p className="text-sm">
-            셋업 진행 중 — 곧 오늘의 카드 화면이 여기에 표시됩니다.
-          </p>
-          <form action={signOut}>
-            <Button type="submit" variant="outline" className="w-full">
-              로그아웃
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+    <main className="flex-1 flex flex-col items-center justify-center gap-4 p-6">
+      <TodayCard
+        userId={user.id}
+        entryId={entry.id}
+        entryDate={entry.entry_date}
+        diaryText={entry.diary_text ?? ''}
+        lunchUrl={lunchUrl}
+        dinnerUrl={dinnerUrl}
+      />
+      <form action={signOut}>
+        <Button type="submit" variant="ghost" size="sm">
+          로그아웃 ({user.email})
+        </Button>
+      </form>
     </main>
   )
 }
