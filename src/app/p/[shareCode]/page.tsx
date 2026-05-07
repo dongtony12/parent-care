@@ -113,7 +113,11 @@ export default async function FamilyPage({ params }: { params: Params }) {
   return (
     <main className="flex-1 flex flex-col items-center p-6">
       <div className="w-full max-w-md">
-        <MonthlyView recipientName={recipient.name} groups={groups} />
+        <MonthlyView
+          recipientName={recipient.name}
+          shareCode={shareCode}
+          groups={groups}
+        />
       </div>
     </main>
   )

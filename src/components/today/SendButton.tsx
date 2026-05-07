@@ -72,8 +72,10 @@ export function SendButton({ status, finalMessage }: Props) {
     function handleConfirm() {
       startTransition(async () => {
         try {
-          await confirmSend(draft)
-          toast.success('부모님께 보냈어요')
+          const { pushed } = await confirmSend(draft)
+          toast.success('부모님께 보냈어요', {
+            description: pushed > 0 ? `푸시 ${pushed}건 발송됨` : undefined,
+          })
         } catch (err) {
           toast.error(err instanceof Error ? err.message : '발송 실패')
         }

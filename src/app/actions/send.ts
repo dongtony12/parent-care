@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { composeMessage } from '@/lib/ai/compose'
+import { notifyRecipients } from '@/lib/push/notify'
 import { getOrCreateTodayEntry } from './today'
 
 export async function previewMessage(): Promise<{ message: string }> {
@@ -53,7 +54,9 @@ export async function previewMessage(): Promise<{ message: string }> {
   return { message }
 }
 
-export async function confirmSend(text: string): Promise<void> {
+export async function confirmSend(
+  text: string,
+): Promise<{ pushed: number }> {
   const trimmed = text.trim()
   if (!trimmed) throw new Error('메시지를 비워둘 수 없습니다')
 
@@ -75,7 +78,13 @@ export async function confirmSend(text: string): Promise<void> {
     .eq('id', entry.id)
   if (error) throw error
 
+  const { pushed } = await notifyRecipients({
+    userId: user.id,
+    message: trimmed,
+  })
+
   revalidatePath('/')
+  return { pushed }
 }
 
 export async function revertToQueued(): Promise<void> {

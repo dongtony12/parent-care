@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { RecipientForm } from '@/components/settings/RecipientForm'
 import { RecipientItem } from '@/components/settings/RecipientItem'
+import { SelfPushToggle } from '@/components/settings/SelfPushToggle'
 
 export default async function SettingsPage() {
   const supabase = await createSupabaseServerClient()
@@ -65,6 +66,18 @@ export default async function SettingsPage() {
             <Separator />
 
             <RecipientForm />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>알림</CardTitle>
+            <CardDescription>
+              점심·저녁 사진 찍기 알림을 받아보세요.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SelfPushToggle />
           </CardContent>
         </Card>
       </div>

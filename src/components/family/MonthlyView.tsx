@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { PushSubscribeButton } from './PushSubscribeButton'
 
 export type EntryWithPhotos = {
   id: string
@@ -28,6 +29,7 @@ export type MonthGroup = {
 
 type Props = {
   recipientName: string
+  shareCode: string
   groups: MonthGroup[]
 }
 
@@ -40,7 +42,7 @@ function formatDate(date: string): string {
   }).format(new Date(`${date}T00:00:00+09:00`))
 }
 
-export function MonthlyView({ recipientName, groups }: Props) {
+export function MonthlyView({ recipientName, shareCode, groups }: Props) {
   const firstWithEntries = groups.find((g) => g.entries.length > 0)
   const [selectedKey, setSelectedKey] = useState(
     firstWithEntries?.monthKey ?? groups[0]?.monthKey ?? '',
@@ -49,7 +51,7 @@ export function MonthlyView({ recipientName, groups }: Props) {
 
   return (
     <>
-      <header className="space-y-1 pb-4 text-center">
+      <header className="space-y-2 pb-4 text-center">
         <div className="flex items-center justify-center gap-2 text-primary">
           <Heart className="size-5" />
           <h1 className="text-lg font-semibold">{recipientName}님께</h1>
@@ -57,6 +59,9 @@ export function MonthlyView({ recipientName, groups }: Props) {
         <p className="text-sm text-muted-foreground">
           오늘 자식의 하루를 전해드려요
         </p>
+        <div className="flex justify-center pt-1">
+          <PushSubscribeButton shareCode={shareCode} />
+        </div>
       </header>
 
       <nav

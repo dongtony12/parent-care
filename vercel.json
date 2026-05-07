@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/lunch-reminder",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/dinner-reminder",
+      "schedule": "30 9 * * *"
+    },
+    {
+      "path": "/api/cron/auto-send",
+      "schedule": "0 12 * * *"
+    }
+  ]
+}
