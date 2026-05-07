@@ -10,15 +10,17 @@ import {
   deleteRecipient,
   updateRecipientActive,
 } from '@/app/actions/recipients'
+import { ShareLink } from './ShareLink'
 
 type Props = {
   id: string
   name: string
   phone: string
   isActive: boolean
+  shareCode: string
 }
 
-export function RecipientItem({ id, name, phone, isActive }: Props) {
+export function RecipientItem({ id, name, phone, isActive, shareCode }: Props) {
   const [pending, startTransition] = useTransition()
 
   function handleToggle(checked: boolean) {
@@ -49,7 +51,8 @@ export function RecipientItem({ id, name, phone, isActive }: Props) {
         <p className="font-medium">{name}</p>
         <p className="text-sm text-muted-foreground">{formatPhone(phone)}</p>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
+        <ShareLink shareCode={shareCode} />
         <Switch
           checked={isActive}
           onCheckedChange={handleToggle}

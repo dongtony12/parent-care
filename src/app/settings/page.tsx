@@ -17,7 +17,7 @@ export default async function SettingsPage() {
   const supabase = await createSupabaseServerClient()
   const { data: recipients } = await supabase
     .from('recipients')
-    .select('id, name, phone, is_active')
+    .select('id, name, phone, is_active, share_code')
     .order('created_at', { ascending: true })
 
   return (
@@ -56,6 +56,7 @@ export default async function SettingsPage() {
                     name={r.name}
                     phone={r.phone}
                     isActive={r.is_active}
+                    shareCode={r.share_code}
                   />
                 ))
               )}

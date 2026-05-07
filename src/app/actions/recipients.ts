@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { normalizePhone } from '@/lib/phone'
+import { generateShareCode } from '@/lib/share-code'
 
 export async function addRecipient(input: { name: string; phone: string }) {
   const supabase = await createSupabaseServerClient()
@@ -21,6 +22,7 @@ export async function addRecipient(input: { name: string; phone: string }) {
     user_id: user.id,
     name,
     phone,
+    share_code: generateShareCode(),
   })
   if (error) throw error
 

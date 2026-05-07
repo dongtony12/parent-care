@@ -4,6 +4,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { signOut } from '@/lib/auth/actions'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { TodayCard } from '@/components/today/TodayCard'
+import { SendButton } from '@/components/today/SendButton'
 import { getOrCreateTodayEntry } from './actions/today'
 
 const SIGNED_URL_TTL = 60 * 60
@@ -53,6 +54,7 @@ export default async function HomePage() {
         lunchUrl={lunchUrl}
         dinnerUrl={dinnerUrl}
       />
+      <SendButton status={entry.status} finalMessage={entry.final_message} />
       <form action={signOut}>
         <Button type="submit" variant="ghost" size="sm">
           로그아웃 ({user.email})

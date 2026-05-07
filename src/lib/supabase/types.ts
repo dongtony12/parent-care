@@ -126,6 +126,7 @@ export type Database = {
           is_active: boolean
           name: string
           phone: string
+          share_code: string
           user_id: string
         }
         Insert: {
@@ -135,6 +136,7 @@ export type Database = {
           is_active?: boolean
           name: string
           phone: string
+          share_code: string
           user_id: string
         }
         Update: {
@@ -144,6 +146,7 @@ export type Database = {
           is_active?: boolean
           name?: string
           phone?: string
+          share_code?: string
           user_id?: string
         }
         Relationships: []
