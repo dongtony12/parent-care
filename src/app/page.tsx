@@ -1,6 +1,8 @@
+import Link from 'next/link'
+import { Settings } from 'lucide-react'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { signOut } from '@/lib/auth/actions'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { TodayCard } from '@/components/today/TodayCard'
 import { getOrCreateTodayEntry } from './actions/today'
 
@@ -34,6 +36,15 @@ export default async function HomePage() {
 
   return (
     <main className="flex-1 flex flex-col items-center justify-center gap-4 p-6">
+      <div className="flex w-full max-w-md justify-end">
+        <Link
+          href="/settings"
+          aria-label="설정"
+          className={buttonVariants({ variant: 'ghost', size: 'icon' })}
+        >
+          <Settings className="size-5" />
+        </Link>
+      </div>
       <TodayCard
         userId={user.id}
         entryId={entry.id}
